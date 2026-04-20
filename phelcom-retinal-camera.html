@@ -38,7 +38,7 @@
     --navy: #cdd8ea;
     --text: #dce4f0;
     --text-secondary: #8a9bb8;
-    --text-muted: #556070;
+    --text-muted: #5[PIN REDACTED]0;
     --bg: #0d1117;
     --surface: #131c2b;
     --border: rgba(100,140,200,0.12);
@@ -91,7 +91,7 @@
   .doc-meta-item strong { color: var(--text-secondary); font-weight: 500; }
   .doc-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .tag { font-size: 0.7rem; color: var(--tag-text); background: var(--tag-bg); border: 1px solid var(--tag-border, var(--border)); border-radius: 100px; padding: 0.25rem 0.8rem; }
-  .header-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
   .btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 500; border-radius: 100px; padding: 0.45rem 1.1rem; cursor: pointer; text-decoration: none; transition: all 0.2s; letter-spacing: 0.02em; font-family: 'DM Sans', sans-serif; }
   .btn-primary { background: var(--navy); color: var(--bg); border: 1px solid var(--navy); }
   [data-theme="dark"] .btn-primary { background: #1e3a5a; color: #cdd8ea; border-color: rgba(100,160,220,0.3); }
@@ -238,8 +238,8 @@
       <span class="tag">Procedure</span>
     </div>
     <div class="header-actions">
-      <a href="Phelcom_Retinal_Device_-_Procedure.pdf" download class="btn btn-primary">↓ &nbsp;Download PDF</a>
       <a href="index.html#projects" class="btn btn-outline">← &nbsp;Back to projects</a>
+      <a href="Phelcom_Retinal_Device_-_Procedure.pdf" download class="btn btn-primary">↓ &nbsp;Download PDF</a>
     </div>
   </header>
 
@@ -263,7 +263,7 @@
         <p class="qr-label">Quick reference</p>
         <div class="qr-row">
           <span class="qr-key">Admin portal</span>
-          <span class="qr-val">phelcom.pub.vsp.com</span>
+          <span class="qr-val">[ADMIN PORTAL URL]</span>
         </div>
         <div class="qr-row">
           <span class="qr-key">Credentials</span>
@@ -271,11 +271,11 @@
         </div>
         <div class="qr-row">
           <span class="qr-key">Store email</span>
-          <span class="qr-val">[store#]@opticaloutlets.com</span>
+          <span class="qr-val">[store#]@[domain].com</span>
         </div>
         <div class="qr-row">
           <span class="qr-key">Store PIN</span>
-          <span class="qr-val">5607</span>
+          <span class="qr-val">[PIN REDACTED]</span>
         </div>
         <div class="qr-row">
           <span class="qr-key">Permission</span>
@@ -345,14 +345,14 @@
             <div class="step-circle">1</div>
             <div class="step-body">
               <p class="step-action">Open RoboForm and navigate to the IT Department folder.</p>
-              <p class="step-detail">Locate the entry labeled <strong>Phelcom Retinal Admin</strong> and use it to log in to <code>phelcom.pub.vsp.com/login</code>.</p>
+              <p class="step-detail">Locate the entry labeled <strong>Phelcom Retinal Admin</strong> and use it to log in to <code>[ADMIN PORTAL URL]</code>.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-circle">2</div>
             <div class="step-body">
               <p class="step-action">Confirm you are logged in to the correct organization.</p>
-              <p class="step-detail">After logging in, the portal header should display <strong>Optical Outlets [Store#]</strong>. If a different organization name appears, log out and repeat step 1.</p>
+              <p class="step-detail">After logging in, the portal header should display <strong>[Organization] [Store#]</strong>. If a different organization name appears, log out and repeat step 1.</p>
             </div>
           </div>
         </div>
@@ -388,20 +388,20 @@
             <tr>
               <td class="field-label">Email</td>
               <td>
-                <div class="field-val">[store#]@opticaloutlets.com</div>
-                <div class="field-example">Example: 005@opticaloutlets.com</div>
+                <div class="field-val">[store#]@[domain].com</div>
+                <div class="field-example">Example: [store#]@[domain].com</div>
               </td>
             </tr>
             <tr>
               <td class="field-label">Document Field</td>
               <td>
                 <div class="field-val">S[##]</div>
-                <div class="field-example">Example: S05</div>
+                <div class="field-example">Example: S[##]</div>
               </td>
             </tr>
             <tr>
               <td class="field-label">PIN</td>
-              <td><div class="field-val">5607</div></td>
+              <td><div class="field-val">[PIN REDACTED]</div></td>
             </tr>
             <tr>
               <td class="field-label">Permission Level</td>
@@ -422,14 +422,14 @@
             <div class="step-circle">2</div>
             <div class="step-body">
               <p class="step-action">Open the Users tab and click Invite.</p>
-              <p class="step-detail">Under the Users tab, scroll to the bottom of the user list and click <strong>Invite</strong>. Enter the store email address using the format <code>[store#]@opticaloutlets.com</code> and set the permission level to <strong>Technician</strong>.</p>
+              <p class="step-detail">Under the Users tab, scroll to the bottom of the user list and click <strong>Invite</strong>. Enter the store email address using the format <code>[store#]@[domain].com</code> and set the permission level to <strong>Technician</strong>.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-circle">3</div>
             <div class="step-body">
               <p class="step-action">Accept the invitation using the store's email account.</p>
-              <p class="step-detail">Use RoboForm to access the store's email inbox at <code>[store#]@opticaloutlets.com</code>. Open the invitation email from EyerCloud and click the activation link. Complete account setup using the credential table above.</p>
+              <p class="step-detail">Use RoboForm to access the store's email inbox at <code>[store#]@[domain].com</code>. Open the invitation email from EyerCloud and click the activation link. Complete account setup using the credential table above.</p>
             </div>
           </div>
           <div class="step">
@@ -453,7 +453,7 @@
             <div class="step-circle">1</div>
             <div class="step-body">
               <p class="step-action">Have the store representative log in to EyerCloud.</p>
-              <p class="step-detail">Guide the store rep to open a browser and navigate to <code>phelcom.pub.vsp.com/login</code>. Have them log in using the RoboForm entry saved in their store folder.</p>
+              <p class="step-detail">Guide the store rep to open a browser and navigate to <code>[ADMIN PORTAL URL]</code>. Have them log in using the RoboForm entry saved in their store folder.</p>
             </div>
           </div>
           <div class="step">
