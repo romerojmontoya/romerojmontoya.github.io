@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LanguageLine Insight — Device Setup · Jorge Romero-Montoya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1A3A6B;
+    --text: #1a1a2e;
+    --text-secondary: #5a6478;
+    --text-muted: #8a93a6;
+    --bg: #F4F6F9;
+    --surface: #F5F5F7;
+    --border: rgba(26,58,107,0.12);
+    --border-hover: rgba(26,58,107,0.25);
+    --tag-bg: #eceef4;
+    --tag-text: #1A3A6B;
+    --info-bg: #edf3fb;
+    --info-border: rgba(26,58,107,0.18);
+    --info-text: #1A3A6B;
+    --warn-bg: #fffbec;
+    --warn-border: rgba(180,120,0,0.2);
+    --warn-text: #7a5000;
+    --success-bg: #eaf5ee;
+    --success-border: rgba(20,120,60,0.18);
+    --success-text: #1a5c32;
+    --toc-active: #1A3A6B;
+    --nav-height: 64px;
+  }
+
+  [data-theme="dark"] {
+    --navy: #cdd8ea;
+    --text: #dce4f0;
+    --text-secondary: #8a9bb8;
+    --text-muted: #5[PIN REDACTED]0;
+    --bg: #0d1117;
+    --surface: #131c2b;
+    --border: rgba(100,140,200,0.12);
+    --border-hover: rgba(100,140,200,0.28);
+    --tag-bg: #162035;
+    --tag-text: #7ba7d4;
+    --tag-border: rgba(100,160,220,0.2);
+    --info-bg: #0e1e35;
+    --info-border: rgba(80,140,220,0.2);
+    --info-text: #7ba7d4;
+    --warn-bg: #1a1400;
+    --warn-border: rgba(200,150,0,0.2);
+    --warn-text: #c8a040;
+    --success-bg: #0b1f15;
+    --success-border: rgba(40,160,90,0.2);
+    --success-text: #5abf80;
+    --toc-active: #7ba7d4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #1A3A6B;
+    height: var(--nav-height);
+    display: flex; align-items: center;
+    padding: 0 2.5rem; gap: 2rem;
+  }
+  [data-theme="dark"] nav { background: #0d1117; border-bottom: 1px solid rgba(100,140,200,0.1); }
+
+  .nav-name {
+    font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 400;
+    color: #d4dce8; letter-spacing: 0.01em; margin-right: auto; text-decoration: none;
+  }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; color: #b0bccf; text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; }
+  .nav-links a:hover { color: #e8edf5; }
+  .nav-contact-btn {
+    font-size: 0.8rem; font-weight: 500; color: #b0bccf !important;
+    border: 1px solid rgba(180,200,220,0.3); border-radius: 100px; padding: 0.35rem 1rem; transition: all 0.2s !important;
+  }
+  .nav-contact-btn:hover { color: #e8edf5 !important; border-color: rgba(180,200,220,0.6) !important; background: rgba(255,255,255,0.06); }
+
+  .theme-toggle {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px; width: 52px; height: 28px; cursor: pointer;
+    position: relative; transition: background 0.3s; flex-shrink: 0;
+  }
+  .theme-toggle::before {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%; background: #b0bccf;
+    transition: transform 0.3s, background 0.3s;
+  }
+  [data-theme="dark"] .theme-toggle::before { transform: translateX(24px); background: #a8bbd4; }
+  .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 11px; pointer-events: none; }
+  .icon-moon { right: 6px; opacity: 0.5; }
+  .icon-sun  { left: 6px;  opacity: 0.5; }
+
+  /* PAGE */
+  .page-outer { max-width: 1040px; margin: 0 auto; padding: 0 2rem; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.775rem; color: var(--text-muted); padding: 1.75rem 0 0;
+  }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--navy); }
+  .breadcrumb-sep { opacity: 0.4; }
+
+  .doc-header { padding: 1.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+
+  .doc-category {
+    font-size: 0.67rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.6rem;
+  }
+  .doc-title {
+    font-family: 'Lora', serif; font-size: 1.85rem; font-weight: 500;
+    color: var(--navy); line-height: 1.2; margin-bottom: 1rem;
+  }
+  .doc-meta-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .doc-meta-item { font-size: 0.775rem; color: var(--text-muted); }
+  .doc-meta-item strong { color: var(--text-secondary); font-weight: 500; }
+
+  .doc-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .tag {
+    font-size: 0.7rem; color: var(--tag-text); background: var(--tag-bg);
+    border: 1px solid var(--tag-border, var(--border)); border-radius: 100px; padding: 0.25rem 0.8rem;
+  }
+
+  .header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; font-weight: 500; border-radius: 100px;
+    padding: 0.45rem 1.1rem; cursor: pointer; text-decoration: none;
+    transition: all 0.2s; letter-spacing: 0.02em; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--navy); color: var(--bg); border: 1px solid var(--navy); }
+  [data-theme="dark"] .btn-primary { background: #1e3a5a; color: #cdd8ea; border-color: rgba(100,160,220,0.3); }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline { background: transparent; color: var(--navy); border: 1px solid var(--border-hover); }
+  .btn-outline:hover { background: var(--tag-bg); }
+
+  /* TWO-COL */
+  .doc-body { display: grid; grid-template-columns: 200px 1fr; align-items: start; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: calc(var(--nav-height) + 1.5rem);
+    padding: 2rem 1.25rem 2rem 0;
+    max-height: calc(100vh - var(--nav-height) - 3rem);
+    overflow-y: auto;
+  }
+  .sidebar::-webkit-scrollbar { width: 0; }
+
+  .toc-label {
+    font-size: 0.63rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;
+  }
+  .toc { list-style: none; border-left: 1.5px solid var(--border); }
+  .toc li a {
+    display: block; padding: 0.35rem 0 0.35rem 0.9rem;
+    font-size: 0.79rem; color: var(--text-muted); text-decoration: none;
+    border-left: 2px solid transparent; margin-left: -1.5px;
+    transition: color 0.15s, border-color 0.15s; line-height: 1.4;
+  }
+  .toc li a:hover { color: var(--text-secondary); }
+  .toc li.active a { color: var(--toc-active); border-left-color: var(--toc-active); font-weight: 500; }
+
+  .quick-ref {
+    margin-top: 1.5rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem;
+  }
+  .qr-label {
+    font-size: 0.62rem; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.65rem;
+  }
+  .qr-row { padding: 0.45rem 0; border-bottom: 1px solid var(--border); }
+  .qr-row:last-child { border-bottom: none; }
+  .qr-key { font-size: 0.68rem; color: var(--text-muted); display: block; margin-bottom: 0.1rem; }
+  .qr-val { font-family: 'Courier New', monospace; font-size: 0.77rem; color: var(--navy); font-weight: 600; word-break: break-all; }
+
+  /* MAIN */
+  .main-content { padding: 2rem 0 5rem 2.5rem; border-left: 1px solid var(--border); }
+
+  .doc-section { margin-bottom: 2.75rem; }
+
+  .section-heading {
+    display: flex; align-items: center; gap: 0.65rem;
+    margin-bottom: 1.1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border);
+  }
+  .section-num-badge {
+    width: 23px; height: 23px; border-radius: 50%;
+    background: var(--tag-bg); border: 1px solid var(--border-hover);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.67rem; font-weight: 500; color: var(--navy); flex-shrink: 0;
+  }
+  .section-title { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 500; color: var(--navy); }
+
+  .overview-text { font-size: 0.875rem; line-height: 1.75; color: var(--text-secondary); }
+
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 1.25rem 0 0; }
+  .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.85rem 1rem; }
+  .meta-card-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+  .meta-card-value { font-size: 0.825rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .prereq-list { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1rem; }
+  .prereq-item { display: flex; align-items: center; gap: 0.55rem; font-size: 0.855rem; color: var(--text-secondary); }
+  .prereq-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--navy); opacity: 0.4; flex-shrink: 0; }
+
+  .callout { border-radius: 9px; padding: 0.9rem 1rem; margin: 1rem 0; display: flex; gap: 0.7rem; font-size: 0.835rem; line-height: 1.6; }
+  .callout-info    { background: var(--info-bg);    border: 1px solid var(--info-border); }
+  .callout-warn    { background: var(--warn-bg);    border: 1px solid var(--warn-border); }
+  .callout-success { background: var(--success-bg); border: 1px solid var(--success-border); }
+  .callout-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { flex: 1; }
+  .callout-title { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem; }
+  .callout-info    .callout-title, .callout-info    .callout-text { color: var(--info-text); }
+  .callout-warn    .callout-title, .callout-warn    .callout-text { color: var(--warn-text); }
+  .callout-success .callout-title, .callout-success .callout-text { color: var(--success-text); }
+  .callout-text { opacity: 0.9; }
+
+  .cred-box { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; margin: 1rem 0; }
+  .cred-header { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); background: var(--tag-bg); }
+  .cred-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); gap: 1rem; }
+  .cred-row:last-child { border-bottom: none; }
+  .cred-key { font-size: 0.8rem; color: var(--text-secondary); flex-shrink: 0; }
+  .cred-val { font-family: 'Courier New', monospace; font-size: 0.82rem; font-weight: 600; color: var(--navy); background: var(--tag-bg); border: 1px solid var(--border); border-radius: 5px; padding: 0.18rem 0.5rem; }
+  .cred-note { font-size: 0.72rem; color: var(--text-muted); text-align: right; margin-top: 0.2rem; }
+
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 1.1rem; position: relative; }
+  .step:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 30px; bottom: 0; width: 1px; background: var(--border); }
+  .step-circle { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--border-hover); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; color: var(--navy); margin-top: 0.05rem; position: relative; z-index: 1; }
+  .step-body { flex: 1; padding-bottom: 1.5rem; }
+  .step-action { font-size: 0.875rem; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; line-height: 1.4; }
+  .step-detail { font-size: 0.835rem; line-height: 1.65; color: var(--text-secondary); }
+
+  code { font-family: 'Courier New', monospace; font-size: 0.8rem; background: var(--tag-bg); color: var(--navy); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.4rem; }
+
+  .trouble-list { display: flex; flex-direction: column; gap: 0.9rem; }
+  .trouble-item { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 1rem 1.15rem; }
+  .trouble-problem { font-size: 0.855rem; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
+  .trouble-solution { font-size: 0.82rem; line-height: 1.65; color: var(--text-secondary); }
+
+  .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .related-card { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.9rem 1rem; text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+  .related-card:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+  .related-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .related-title { font-size: 0.825rem; font-weight: 500; color: var(--navy); margin-bottom: 0.2rem; line-height: 1.3; }
+  .related-desc { font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; }
+
+  footer { text-align: center; padding: 1.75rem; font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+
+  @media (max-width: 700px) {
+    .doc-body { grid-template-columns: 1fr; }
+    .sidebar { position: static; padding: 1.5rem 0 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; max-height: none; }
+    .main-content { padding: 1.5rem 0 4rem; border-left: none; }
+    .meta-grid, .related-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1.25rem; }
+    .page-outer { padding: 0 1.25rem; }
+    .doc-title { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="portfolio.html" class="nav-name">Jorge Romero-Montoya</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html#projects">Projects</a></li>
+    <li><a href="portfolio.html#contact" class="nav-contact-btn">Contact</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+    <span class="theme-icon icon-sun">☀</span>
+    <span class="theme-icon icon-moon">☾</span>
+  </button>
+</nav>
+
+<div class="page-outer">
+
+  <div class="breadcrumb">
+    <a href="portfolio.html">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="portfolio.html#projects">Projects</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>LanguageLine Insight</span>
+  </div>
+
+  <header class="doc-header">
+    <p class="doc-category">General › Devices › Agents Only</p>
+    <h1 class="doc-title">LanguageLine Insight — Device Setup</h1>
+    <div class="doc-meta-row">
+      <span class="doc-meta-item"><strong>Author</strong>&nbsp; Jorge Romero</span>
+      <span class="doc-meta-item"><strong>Created</strong>&nbsp; March 2026</span>
+      <span class="doc-meta-item"><strong>Updated</strong>&nbsp; April 2026</span>
+      <span class="doc-meta-item"><strong>Platform</strong>&nbsp; iPad (iOS)</span>
+      <span class="doc-meta-item"><strong>Time</strong>&nbsp; 5–7 min.</span>
+    </div>
+    <div class="doc-tags">
+      <span class="tag">Device setup</span>
+      <span class="tag">Retail IT</span>
+      <span class="tag">Tier I</span>
+      <span class="tag">iOS</span>
+      <span class="tag">Procedure</span>
+    </div>
+    <div class="header-actions">
+      <a href="portfolio.html#projects" class="btn btn-outline">← &nbsp;Back to projects</a>
+      <a href="LanguageLine_Insight_-_Procedure.pdf" download class="btn btn-primary">↓ &nbsp;Download PDF</a>
+    </div>
+  </header>
+
+  <div class="doc-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="toc-label">On this page</p>
+      <ul class="toc">
+        <li data-section="overview"><a href="#overview">Overview</a></li>
+        <li data-section="prerequisites"><a href="#prerequisites">Prerequisites</a></li>
+        <li data-section="install"><a href="#install">Install the app</a></li>
+        <li data-section="activate"><a href="#activate">Activate the device</a></li>
+        <li data-section="verify"><a href="#verify">Verify setup</a></li>
+        <li data-section="troubleshoot"><a href="#troubleshoot">Troubleshooting</a></li>
+        <li data-section="related"><a href="#related">Related articles</a></li>
+      </ul>
+
+      <div class="quick-ref">
+        <p class="qr-label">Quick reference</p>
+        <div class="qr-row">
+          <span class="qr-key">iPad PIN</span>
+          <span class="qr-val">[PIN REDACTED]</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Auth code</span>
+          <span class="qr-val">[AUTH CODE REDACTED]</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Device name</span>
+          <span class="qr-val">0[Store#]</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Publisher</span>
+          <span class="qr-val">[App Publisher]</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <section class="doc-section" id="overview">
+        <div class="section-heading">
+          <h2 class="section-title">Overview</h2>
+        </div>
+        <p class="overview-text">This guide walks IT support staff through installing and activating the LanguageLine InSight app on a store iPad. Once activated, the device gives store associates on-demand access to live video and audio interpreters in 240+ languages.</p>
+        <div class="meta-grid">
+          <div class="meta-card">
+            <p class="meta-card-label">Who performs this task</p>
+            <p class="meta-card-value">IT Support — Tier I</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">When to use this guide</p>
+            <p class="meta-card-value">New store · Device installation · Device replacement</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">Devices affected</p>
+            <p class="meta-card-value">Language / Translation iPads</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">Outcome</p>
+            <p class="meta-card-value">LanguageLine activated and ready for store use</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="prerequisites">
+        <div class="section-heading">
+          <h2 class="section-title">Prerequisites</h2>
+        </div>
+        <p style="font-size:0.855rem; color:var(--text-secondary); margin-bottom:0.75rem;">Have the following before performing installation:</p>
+        <div class="prereq-list">
+          <div class="prereq-item">Latest version of iOS is installed</div>
+          <div class="prereq-item">IT Apple account is signed in</div>
+          <div class="prereq-item">Store number is known (e.g., 029)</div>
+          <div class="prereq-item">iPad has an active Wi-Fi connection</div>
+        </div>
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <p class="callout-title">Use IT's Apple ID</p>
+            <p class="callout-text">Store iPads are managed under a shared Apple ID. You do not need individual credentials to install the app.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="install">
+        <div class="section-heading">
+          <div class="section-num-badge">1</div>
+          <h2 class="section-title">Install the app</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Unlock the iPad.</p>
+              <p class="step-detail">Enter PIN <code>[PIN REDACTED]</code> on the lock screen.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Open the App Store.</p>
+              <p class="step-detail">Tap the <strong>App Store</strong> icon on the home screen. If the icon is not visible, swipe right to open App Library and search for "App Store".</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-body">
+              <p class="step-action">Search for LanguageLine InSight.</p>
+              <p class="step-detail">Tap the search bar and type <code>LanguageLine InSight</code>. The publisher is <strong>[App Publisher]</strong> — confirm this before installing to avoid a similarly named app.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">4</div>
+            <div class="step-body">
+              <p class="step-action">Tap Get to begin the download.</p>
+              <p class="step-detail">Wait for installation to complete. The button will change to <strong>Open</strong> when ready.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">5</div>
+            <div class="step-body">
+              <p class="step-action">Return to the home screen.</p>
+              <p class="step-detail">Press the Home button or swipe up from the bottom. Locate the <strong>LanguageLine InSight</strong> icon on the home screen or in App Library.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="activate">
+        <div class="section-heading">
+          <div class="section-num-badge">2</div>
+          <h2 class="section-title">Activate the device</h2>
+        </div>
+        <p style="font-size:0.855rem; color:var(--text-secondary); margin-bottom:0.9rem;">Activation links this iPad to the correct store account in the LanguageLine system. Use the credentials below.</p>
+        <div class="cred-box">
+          <div class="cred-header">Activation credentials</div>
+          <div class="cred-row">
+            <span class="cred-key">Authentication code</span>
+            <span class="cred-val">[AUTH CODE REDACTED]</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-key">Device name format</span>
+            <div style="text-align:right;">
+              <span class="cred-val">0[Store#]</span>
+              <div class="cred-note">e.g., Store 29 → <code>029</code></div>
+            </div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Open the LanguageLine InSight app.</p>
+              <p class="step-detail">The app opens to an activation screen with two text fields and a greyed-out <strong>Activate Device</strong> button.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Enter the authentication code.</p>
+              <p class="step-detail">In the first field, enter <code>[AUTH CODE REDACTED]</code> exactly as shown. The code is case-sensitive.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-body">
+              <p class="step-action">Enter the device name.</p>
+              <p class="step-detail">In the second field, enter the store number using the format <code>0[Store#]</code>. Use leading zeros — for example, Store 29 → enter <code>029</code>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">4</div>
+            <div class="step-body">
+              <p class="step-action">Tap Activate Device.</p>
+              <p class="step-detail">The button becomes active once both fields are filled. After tapping, the app will prompt the store to select a language — the device is now ready for use.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠</span>
+          <div class="callout-body">
+            <p class="callout-title">Device name cannot be changed after activation</p>
+            <p class="callout-text">Double-check the store number before tapping <strong>Activate Device</strong>. If the wrong name is entered, contact IT to reset the device registration.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="verify">
+        <div class="section-heading">
+          <div class="section-num-badge">3</div>
+          <h2 class="section-title">Verify setup</h2>
+        </div>
+        <p style="font-size:0.855rem; color:var(--text-secondary); margin-bottom:0.9rem;">Confirm the device is functioning correctly before handing off to the store.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Confirm the language selection screen appears.</p>
+              <p class="step-detail">Immediately after activation, the app should display a list of available languages. This confirms the device has connected to the LanguageLine network.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Select Spanish and initiate a test call.</p>
+              <p class="step-detail">Tap <strong>Spanish</strong> from the language list, then tap <strong>Video</strong> to request an interpreter. Confirm the call connects. End the call immediately after confirming — do not wait for an interpreter.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-success">
+          <span class="callout-icon">✓</span>
+          <div class="callout-body">
+            <p class="callout-title">Setup complete</p>
+            <p class="callout-text">If the language list appeared and the test call initiated, the device is configured correctly. Inform the store that the iPad is ready for interpreter sessions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="troubleshoot">
+        <div class="section-heading">
+          <h2 class="section-title">Troubleshooting</h2>
+        </div>
+        <div class="trouble-list">
+          <div class="trouble-item">
+            <p class="trouble-problem">"Activate Device" button remains greyed out</p>
+            <p class="trouble-solution">Both fields must be filled before the button activates. Tap each field to confirm the keyboard appears and the value was saved.</p>
+          </div>
+          <div class="trouble-item">
+            <p class="trouble-problem">App is not visible in the App Store search results</p>
+            <p class="trouble-solution">Ensure the iPad is connected to Wi-Fi. If confirmed, sign out of the App Store and sign back in, then search again for LanguageLine InSight.</p>
+          </div>
+          <div class="trouble-item">
+            <p class="trouble-problem">Activation fails with an error message</p>
+            <p class="trouble-solution">Verify the code is entered exactly as <code>[AUTH CODE REDACTED]</code> with no spaces. If the error persists, contact the IT helpdesk — the code may have been rotated.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="related">
+        <div class="section-heading">
+          <h2 class="section-title">Related articles</h2>
+        </div>
+        <div class="related-grid">
+          <a class="related-card" href="phelcom-retinal-camera.html">
+            <span class="related-icon">📷</span>
+            <div>
+              <p class="related-title">Phelcom Retinal Camera Setup</p>
+              <p class="related-desc">EyerCloud device linking and user provisioning</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">🔐</span>
+            <div>
+              <p class="related-title">Eyefinity EHR — MFA Setup</p>
+              <p class="related-desc">Microsoft Authenticator enrollment steps</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">📱</span>
+            <div>
+              <p class="related-title">EHR — Eyefinity Kiosk iPad Install</p>
+              <p class="related-desc">Kiosk app download and configuration</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">🔑</span>
+            <div>
+              <p class="related-title">Store Camera Passwords</p>
+              <p class="related-desc">Credentials for all store security cameras</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  Jorge Romero-Montoya &nbsp;·&nbsp; Technical Writer &nbsp;·&nbsp; Last reviewed April 2026
+</footer>
+
+<script>
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+  const sections = document.querySelectorAll('.doc-section[id]');
+  const tocItems = document.querySelectorAll('.toc li[data-section]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocItems.forEach(li => li.classList.remove('active'));
+        const match = document.querySelector(`.toc li[data-section="${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

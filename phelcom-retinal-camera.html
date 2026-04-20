@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phelcom Retinal Camera — Device Setup · Jorge Romero-Montoya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1A3A6B;
+    --text: #1a1a2e;
+    --text-secondary: #5a6478;
+    --text-muted: #8a93a6;
+    --bg: #F4F6F9;
+    --surface: #F5F5F7;
+    --border: rgba(26,58,107,0.12);
+    --border-hover: rgba(26,58,107,0.25);
+    --tag-bg: #eceef4;
+    --tag-text: #1A3A6B;
+    --info-bg: #edf3fb;
+    --info-border: rgba(26,58,107,0.18);
+    --info-text: #1A3A6B;
+    --warn-bg: #fffbec;
+    --warn-border: rgba(180,120,0,0.2);
+    --warn-text: #7a5000;
+    --success-bg: #eaf5ee;
+    --success-border: rgba(20,120,60,0.18);
+    --success-text: #1a5c32;
+    --toc-active: #1A3A6B;
+    --nav-height: 64px;
+  }
+
+  [data-theme="dark"] {
+    --navy: #cdd8ea;
+    --text: #dce4f0;
+    --text-secondary: #8a9bb8;
+    --text-muted: #5[PIN REDACTED]0;
+    --bg: #0d1117;
+    --surface: #131c2b;
+    --border: rgba(100,140,200,0.12);
+    --border-hover: rgba(100,140,200,0.28);
+    --tag-bg: #162035;
+    --tag-text: #7ba7d4;
+    --tag-border: rgba(100,160,220,0.2);
+    --info-bg: #0e1e35;
+    --info-border: rgba(80,140,220,0.2);
+    --info-text: #7ba7d4;
+    --warn-bg: #1a1400;
+    --warn-border: rgba(200,150,0,0.2);
+    --warn-text: #c8a040;
+    --success-bg: #0b1f15;
+    --success-border: rgba(40,160,90,0.2);
+    --success-text: #5abf80;
+    --toc-active: #7ba7d4;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: #1A3A6B; height: var(--nav-height); display: flex; align-items: center; padding: 0 2.5rem; gap: 2rem; }
+  [data-theme="dark"] nav { background: #0d1117; border-bottom: 1px solid rgba(100,140,200,0.1); }
+  .nav-name { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 400; color: #d4dce8; letter-spacing: 0.01em; margin-right: auto; text-decoration: none; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; color: #b0bccf; text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; }
+  .nav-links a:hover { color: #e8edf5; }
+  .nav-contact-btn { font-size: 0.8rem; font-weight: 500; color: #b0bccf !important; border: 1px solid rgba(180,200,220,0.3); border-radius: 100px; padding: 0.35rem 1rem; transition: all 0.2s !important; }
+  .nav-contact-btn:hover { color: #e8edf5 !important; border-color: rgba(180,200,220,0.6) !important; background: rgba(255,255,255,0.06); }
+  .theme-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; width: 52px; height: 28px; cursor: pointer; position: relative; transition: background 0.3s; flex-shrink: 0; }
+  .theme-toggle::before { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #b0bccf; transition: transform 0.3s, background 0.3s; }
+  [data-theme="dark"] .theme-toggle::before { transform: translateX(24px); background: #a8bbd4; }
+  .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 11px; pointer-events: none; }
+  .icon-moon { right: 6px; opacity: 0.5; }
+  .icon-sun  { left: 6px;  opacity: 0.5; }
+
+  .page-outer { max-width: 1040px; margin: 0 auto; padding: 0 2rem; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.775rem; color: var(--text-muted); padding: 1.75rem 0 0; }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--navy); }
+  .breadcrumb-sep { opacity: 0.4; }
+
+  .doc-header { padding: 1.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+  .doc-category { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.6rem; }
+  .doc-title { font-family: 'Lora', serif; font-size: 1.85rem; font-weight: 500; color: var(--navy); line-height: 1.2; margin-bottom: 1rem; }
+  .doc-meta-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .doc-meta-item { font-size: 0.775rem; color: var(--text-muted); }
+  .doc-meta-item strong { color: var(--text-secondary); font-weight: 500; }
+  .doc-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .tag { font-size: 0.7rem; color: var(--tag-text); background: var(--tag-bg); border: 1px solid var(--tag-border, var(--border)); border-radius: 100px; padding: 0.25rem 0.8rem; }
+  .header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 500; border-radius: 100px; padding: 0.45rem 1.1rem; cursor: pointer; text-decoration: none; transition: all 0.2s; letter-spacing: 0.02em; font-family: 'DM Sans', sans-serif; }
+  .btn-primary { background: var(--navy); color: var(--bg); border: 1px solid var(--navy); }
+  [data-theme="dark"] .btn-primary { background: #1e3a5a; color: #cdd8ea; border-color: rgba(100,160,220,0.3); }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline { background: transparent; color: var(--navy); border: 1px solid var(--border-hover); }
+  .btn-outline:hover { background: var(--tag-bg); }
+
+  .doc-body { display: grid; grid-template-columns: 200px 1fr; align-items: start; }
+
+  .sidebar { position: sticky; top: calc(var(--nav-height) + 1.5rem); padding: 2rem 1.25rem 2rem 0; max-height: calc(100vh - var(--nav-height) - 3rem); overflow-y: auto; }
+  .sidebar::-webkit-scrollbar { width: 0; }
+  .toc-label { font-size: 0.63rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .toc { list-style: none; border-left: 1.5px solid var(--border); }
+  .toc li a { display: block; padding: 0.35rem 0 0.35rem 0.9rem; font-size: 0.79rem; color: var(--text-muted); text-decoration: none; border-left: 2px solid transparent; margin-left: -1.5px; transition: color 0.15s, border-color 0.15s; line-height: 1.4; }
+  .toc li a:hover { color: var(--text-secondary); }
+  .toc li.active a { color: var(--toc-active); border-left-color: var(--toc-active); font-weight: 500; }
+
+  .quick-ref { margin-top: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+  .qr-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.65rem; }
+  .qr-row { padding: 0.45rem 0; border-bottom: 1px solid var(--border); }
+  .qr-row:last-child { border-bottom: none; }
+  .qr-key { font-size: 0.68rem; color: var(--text-muted); display: block; margin-bottom: 0.1rem; }
+  .qr-val { font-family: 'Courier New', monospace; font-size: 0.77rem; color: var(--navy); font-weight: 600; word-break: break-all; }
+
+  .main-content { padding: 2rem 0 5rem 2.5rem; border-left: 1px solid var(--border); }
+  .doc-section { margin-bottom: 2.75rem; }
+  .section-heading { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); }
+  .section-num-badge { width: 23px; height: 23px; border-radius: 50%; background: var(--tag-bg); border: 1px solid var(--border-hover); display: flex; align-items: center; justify-content: center; font-size: 0.67rem; font-weight: 500; color: var(--navy); flex-shrink: 0; }
+  .section-title { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 500; color: var(--navy); }
+  .overview-text { font-size: 0.875rem; line-height: 1.75; color: var(--text-secondary); }
+
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 1.25rem 0 0; }
+  .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.85rem 1rem; }
+  .meta-card-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+  .meta-card-value { font-size: 0.825rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .prereq-list { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1rem; }
+  .prereq-item { display: flex; align-items: center; gap: 0.55rem; font-size: 0.855rem; color: var(--text-secondary); }
+  .prereq-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--navy); opacity: 0.4; flex-shrink: 0; }
+
+  .callout { border-radius: 9px; padding: 0.9rem 1rem; margin: 1rem 0; display: flex; gap: 0.7rem; font-size: 0.835rem; line-height: 1.6; }
+  .callout-info    { background: var(--info-bg);    border: 1px solid var(--info-border); }
+  .callout-warn    { background: var(--warn-bg);    border: 1px solid var(--warn-border); }
+  .callout-success { background: var(--success-bg); border: 1px solid var(--success-border); }
+  .callout-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { flex: 1; }
+  .callout-title { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem; }
+  .callout-info    .callout-title, .callout-info    .callout-text { color: var(--info-text); }
+  .callout-warn    .callout-title, .callout-warn    .callout-text { color: var(--warn-text); }
+  .callout-success .callout-title, .callout-success .callout-text { color: var(--success-text); }
+  .callout-text { opacity: 0.9; }
+
+  /* USER TABLE */
+  .user-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.825rem; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
+  .user-table th { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); background: var(--tag-bg); padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); }
+  .user-table td { padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .user-table tr:last-child td { border-bottom: none; }
+  .user-table .field-label { color: var(--text-muted); font-size: 0.78rem; }
+  .user-table .field-val { font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--navy); font-weight: 600; }
+  .user-table .field-example { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+  .cred-box { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; margin: 1rem 0; }
+  .cred-header { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); background: var(--tag-bg); }
+  .cred-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); gap: 1rem; }
+  .cred-row:last-child { border-bottom: none; }
+  .cred-key { font-size: 0.8rem; color: var(--text-secondary); flex-shrink: 0; }
+  .cred-val { font-family: 'Courier New', monospace; font-size: 0.82rem; font-weight: 600; color: var(--navy); background: var(--tag-bg); border: 1px solid var(--border); border-radius: 5px; padding: 0.18rem 0.5rem; }
+  .cred-note { font-size: 0.72rem; color: var(--text-muted); text-align: right; margin-top: 0.2rem; }
+
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 1.1rem; position: relative; }
+  .step:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 30px; bottom: 0; width: 1px; background: var(--border); }
+  .step-circle { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--border-hover); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; color: var(--navy); margin-top: 0.05rem; position: relative; z-index: 1; }
+  .step-body { flex: 1; padding-bottom: 1.5rem; }
+  .step-action { font-size: 0.875rem; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; line-height: 1.4; }
+  .step-detail { font-size: 0.835rem; line-height: 1.65; color: var(--text-secondary); }
+
+  code { font-family: 'Courier New', monospace; font-size: 0.8rem; background: var(--tag-bg); color: var(--navy); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.4rem; }
+
+  .trouble-list { display: flex; flex-direction: column; gap: 0.9rem; }
+  .trouble-item { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 1rem 1.15rem; }
+  .trouble-problem { font-size: 0.855rem; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
+  .trouble-solution { font-size: 0.82rem; line-height: 1.65; color: var(--text-secondary); }
+
+  .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .related-card { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.9rem 1rem; text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+  .related-card:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+  .related-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .related-title { font-size: 0.825rem; font-weight: 500; color: var(--navy); margin-bottom: 0.2rem; line-height: 1.3; }
+  .related-desc { font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; }
+
+  footer { text-align: center; padding: 1.75rem; font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+
+  @media (max-width: 700px) {
+    .doc-body { grid-template-columns: 1fr; }
+    .sidebar { position: static; padding: 1.5rem 0 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; max-height: none; }
+    .main-content { padding: 1.5rem 0 4rem; border-left: none; }
+    .meta-grid, .related-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1.25rem; }
+    .page-outer { padding: 0 1.25rem; }
+    .doc-title { font-size: 1.4rem; }
+    .user-table { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="portfolio.html" class="nav-name">Jorge Romero-Montoya</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html#projects">Projects</a></li>
+    <li><a href="portfolio.html#contact" class="nav-contact-btn">Contact</a></li>
+  </ul>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+    <span class="theme-icon icon-sun">☀</span>
+    <span class="theme-icon icon-moon">☾</span>
+  </button>
+</nav>
+
+<div class="page-outer">
+
+  <div class="breadcrumb">
+    <a href="portfolio.html">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="portfolio.html#projects">Projects</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Phelcom Retinal Camera</span>
+  </div>
+
+  <header class="doc-header">
+    <p class="doc-category">General › Devices › Agents Only</p>
+    <h1 class="doc-title">Phelcom Retinal Camera — Device Setup</h1>
+    <div class="doc-meta-row">
+      <span class="doc-meta-item"><strong>Author</strong>&nbsp; Jorge Romero</span>
+      <span class="doc-meta-item"><strong>Created</strong>&nbsp; March 2026</span>
+      <span class="doc-meta-item"><strong>Updated</strong>&nbsp; April 2026</span>
+      <span class="doc-meta-item"><strong>Platform</strong>&nbsp; Web &amp; Phelcom Device</span>
+      <span class="doc-meta-item"><strong>Time</strong>&nbsp; 15–20 min.</span>
+    </div>
+    <div class="doc-tags">
+      <span class="tag">EyerCloud</span>
+      <span class="tag">Optical / Healthcare</span>
+      <span class="tag">Tier I / II</span>
+      <span class="tag">Procedure</span>
+    </div>
+    <div class="header-actions">
+      <a href="portfolio.html#projects" class="btn btn-outline">← &nbsp;Back to projects</a>
+      <a href="Phelcom_Retinal_Device_-_Procedure.pdf" download class="btn btn-primary">↓ &nbsp;Download PDF</a>
+    </div>
+  </header>
+
+  <div class="doc-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="toc-label">On this page</p>
+      <ul class="toc">
+        <li data-section="overview"><a href="#overview">Overview</a></li>
+        <li data-section="prerequisites"><a href="#prerequisites">Prerequisites</a></li>
+        <li data-section="admin-access"><a href="#admin-access">Access the admin site</a></li>
+        <li data-section="add-user"><a href="#add-user">Add the store user</a></li>
+        <li data-section="link-camera"><a href="#link-camera">Link the camera</a></li>
+        <li data-section="verify"><a href="#verify">Verify setup</a></li>
+        <li data-section="troubleshoot"><a href="#troubleshoot">Troubleshooting</a></li>
+        <li data-section="related"><a href="#related">Related articles</a></li>
+      </ul>
+
+      <div class="quick-ref">
+        <p class="qr-label">Quick reference</p>
+        <div class="qr-row">
+          <span class="qr-key">Admin portal</span>
+          <span class="qr-val">[ADMIN PORTAL URL]</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Credentials</span>
+          <span class="qr-val">RoboForm — IT Dept folder</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Store email</span>
+          <span class="qr-val">[store#]@[domain].com</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Store PIN</span>
+          <span class="qr-val">[PIN REDACTED]</span>
+        </div>
+        <div class="qr-row">
+          <span class="qr-key">Permission</span>
+          <span class="qr-val">Technician</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- OVERVIEW -->
+      <section class="doc-section" id="overview">
+        <div class="section-heading">
+          <h2 class="section-title">Overview</h2>
+        </div>
+        <p class="overview-text">This guide walks IT support staff through provisioning a new store account and linking a Phelcom retinal camera to the EyerCloud platform. Once linked, retinal images captured at the store will automatically sync to the EyerCloud web portal for review and recordkeeping.</p>
+        <div class="meta-grid">
+          <div class="meta-card">
+            <p class="meta-card-label">Who performs this task</p>
+            <p class="meta-card-value">IT Support — Tier I / II</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">When to use this guide</p>
+            <p class="meta-card-value">New store · Camera replacement · Re-linking disconnected device</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">Devices affected</p>
+            <p class="meta-card-value">Phelcom Eyer Retinal Camera</p>
+          </div>
+          <div class="meta-card">
+            <p class="meta-card-label">Outcome</p>
+            <p class="meta-card-value">Camera linked to EyerCloud and retinal images syncing to the store account</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PREREQUISITES -->
+      <section class="doc-section" id="prerequisites">
+        <div class="section-heading">
+          <h2 class="section-title">Prerequisites</h2>
+        </div>
+        <p style="font-size:0.855rem; color:var(--text-secondary); margin-bottom:0.75rem;">Have the following before performing installation:</p>
+        <div class="prereq-list">
+          <div class="prereq-item">RoboForm access (IT Department folder)</div>
+          <div class="prereq-item">Store number is known</div>
+          <div class="prereq-item">Phelcom camera is powered on and connected to Wi-Fi</div>
+          <div class="prereq-item">Access to the store's email inbox</div>
+        </div>
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <p class="callout-title">All credentials are managed through RoboForm</p>
+            <p class="callout-text">The Phelcom Retinal Admin credentials are stored in the IT Department folder in RoboForm and should always be accessed from there. Do not log in manually.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN ACCESS -->
+      <section class="doc-section" id="admin-access">
+        <div class="section-heading">
+          <div class="section-num-badge">1</div>
+          <h2 class="section-title">Access the admin site</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Open RoboForm and navigate to the IT Department folder.</p>
+              <p class="step-detail">Locate the entry labeled <strong>Phelcom Retinal Admin</strong> and use it to log in to <code>[ADMIN PORTAL URL]</code>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Confirm you are logged in to the correct organization.</p>
+              <p class="step-detail">After logging in, the portal header should display <strong>[Organization] [Store#]</strong>. If a different organization name appears, log out and repeat step 1.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADD USER -->
+      <section class="doc-section" id="add-user">
+        <div class="section-heading">
+          <div class="section-num-badge">2</div>
+          <h2 class="section-title">Add the store user</h2>
+        </div>
+        <p style="font-size:0.855rem; color:var(--text-secondary); margin-bottom:0.9rem;">Use the values below when completing the account setup form. All fields are required.</p>
+
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="field-label">First Name</td>
+              <td>
+                <div class="field-val">Store [####]</div>
+                <div class="field-example">Example: Store 005</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="field-label">Surname</td>
+              <td><div class="field-val">Optical</div></td>
+            </tr>
+            <tr>
+              <td class="field-label">Email</td>
+              <td>
+                <div class="field-val">[store#]@[domain].com</div>
+                <div class="field-example">Example: [store#]@[domain].com</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="field-label">Document Field</td>
+              <td>
+                <div class="field-val">S[##]</div>
+                <div class="field-example">Example: S[##]</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="field-label">PIN</td>
+              <td><div class="field-val">[PIN REDACTED]</div></td>
+            </tr>
+            <tr>
+              <td class="field-label">Permission Level</td>
+              <td><div class="field-val">Technician</div></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Navigate to Configurations.</p>
+              <p class="step-detail">Click the gear icon at the bottom left of the portal to open the Configurations panel.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Open the Users tab and click Invite.</p>
+              <p class="step-detail">Under the Users tab, scroll to the bottom of the user list and click <strong>Invite</strong>. Enter the store email address using the format <code>[store#]@[domain].com</code> and set the permission level to <strong>Technician</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-body">
+              <p class="step-action">Accept the invitation using the store's email account.</p>
+              <p class="step-detail">Use RoboForm to access the store's email inbox at <code>[store#]@[domain].com</code>. Open the invitation email from EyerCloud and click the activation link. Complete account setup using the credential table above.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">4</div>
+            <div class="step-body">
+              <p class="step-action">Save the new login to RoboForm.</p>
+              <p class="step-detail">After the account is created, add the store's EyerCloud credentials to the store's RoboForm folder so they can log in independently going forward.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LINK CAMERA -->
+      <section class="doc-section" id="link-camera">
+        <div class="section-heading">
+          <div class="section-num-badge">3</div>
+          <h2 class="section-title">Link the camera</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Have the store representative log in to EyerCloud.</p>
+              <p class="step-detail">Guide the store rep to open a browser and navigate to <code>[ADMIN PORTAL URL]</code>. Have them log in using the RoboForm entry saved in their store folder.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Navigate to Configurations and open the Devices tab.</p>
+              <p class="step-detail">Once logged in, click the gear icon to access Configurations, then select the <strong>Devices</strong> tab.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-body">
+              <p class="step-action">Click Add New Device to generate a QR code.</p>
+              <p class="step-detail">A QR code will appear on screen. Keep this browser window open and visible — you will need it in the next steps.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">4</div>
+            <div class="step-body">
+              <p class="step-action">On the camera, open the EyerCloud app and access clinic settings.</p>
+              <p class="step-detail">Power on the Phelcom camera and open the EyerCloud app. Locate the <strong>Clinic Name</strong> field and tap the double-arrow icon beside it to open the clinic selection screen.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">5</div>
+            <div class="step-body">
+              <p class="step-action">Select "Access with QR Code" and scan.</p>
+              <p class="step-detail">On the clinic selection screen, tap <strong>Access with QR Code</strong>. Point the camera at the QR code displayed on the browser to complete the pairing. The camera will confirm the connection once the scan is successful.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠</span>
+          <div class="callout-body">
+            <p class="callout-title">QR codes expire</p>
+            <p class="callout-text">The QR code generated on the Devices tab is time-limited. If the scan fails or takes too long, return to the Devices tab and click <strong>Add New Device</strong> to generate a fresh code.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VERIFY -->
+      <section class="doc-section" id="verify">
+        <div class="section-heading">
+          <div class="section-num-badge">4</div>
+          <h2 class="section-title">Verify setup</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-circle">1</div>
+            <div class="step-body">
+              <p class="step-action">Confirm the device appears under the Devices tab.</p>
+              <p class="step-detail">Refresh the EyerCloud Devices tab in the browser. The newly paired camera should appear in the device list with an active status.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-body">
+              <p class="step-action">Capture a test image and verify it syncs.</p>
+              <p class="step-detail">Have the store rep capture a test image using the camera. Return to the EyerCloud portal and confirm the image appears in the store's image library. This confirms end-to-end connectivity.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-success">
+          <span class="callout-icon">✓</span>
+          <div class="callout-body">
+            <p class="callout-title">Setup complete</p>
+            <p class="callout-text">If the device appears in the portal and the test image synced successfully, the camera is fully configured. Inform the store that the Phelcom camera is ready for patient imaging sessions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TROUBLESHOOTING -->
+      <section class="doc-section" id="troubleshoot">
+        <div class="section-heading">
+          <h2 class="section-title">Troubleshooting</h2>
+        </div>
+        <div class="trouble-list">
+          <div class="trouble-item">
+            <p class="trouble-problem">QR code scan fails or is not recognized</p>
+            <p class="trouble-solution">Ensure the browser displaying the QR code is not zoomed in or cropped. If the code has been on screen for more than a few minutes, it may have expired — return to the Devices tab and generate a new one. Confirm the camera has an active Wi-Fi connection before trying again.</p>
+          </div>
+          <div class="trouble-item">
+            <p class="trouble-problem">Invitation email was not received</p>
+            <p class="trouble-solution">Check the store's spam or junk folder. If the email is not present after a few minutes, return to the Users tab in EyerCloud and verify the email address was entered correctly. You can re-send the invitation from the same screen.</p>
+          </div>
+          <div class="trouble-item">
+            <p class="trouble-problem">Test image does not appear in the portal</p>
+            <p class="trouble-solution">Confirm the camera completed the QR scan and shows the correct clinic name on the EyerCloud app home screen. If the clinic name is missing or incorrect, repeat the device linking steps. Also verify the store has a stable internet connection.</p>
+          </div>
+          <div class="trouble-item">
+            <p class="trouble-problem">Unable to log in to the admin site</p>
+            <p class="trouble-solution">Always use RoboForm — do not attempt to log in manually. If RoboForm auto-fill fails, check that you are using the <strong>Phelcom Retinal Admin</strong> entry under the IT Department folder. If the issue persists, the credentials may have been rotated — contact the IT helpdesk.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELATED -->
+      <section class="doc-section" id="related">
+        <div class="section-heading">
+          <h2 class="section-title">Related articles</h2>
+        </div>
+        <div class="related-grid">
+          <a class="related-card" href="languageline-insight.html">
+            <span class="related-icon">🌐</span>
+            <div>
+              <p class="related-title">LanguageLine Insight Setup</p>
+              <p class="related-desc">Translation iPad installation and activation</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">🔐</span>
+            <div>
+              <p class="related-title">Eyefinity EHR — MFA Setup</p>
+              <p class="related-desc">Microsoft Authenticator enrollment steps</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">📱</span>
+            <div>
+              <p class="related-title">EHR — Eyefinity Kiosk iPad Install</p>
+              <p class="related-desc">Kiosk app download and configuration</p>
+            </div>
+          </a>
+          <a class="related-card" href="#">
+            <span class="related-icon">🔑</span>
+            <div>
+              <p class="related-title">Store Camera Passwords</p>
+              <p class="related-desc">Credentials for all store security cameras</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  Jorge Romero-Montoya &nbsp;·&nbsp; Technical Writer &nbsp;·&nbsp; Last reviewed April 2026
+</footer>
+
+<script>
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+  const sections = document.querySelectorAll('.doc-section[id]');
+  const tocItems = document.querySelectorAll('.toc li[data-section]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocItems.forEach(li => li.classList.remove('active'));
+        const match = document.querySelector(`.toc li[data-section="${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
